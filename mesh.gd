@@ -49,7 +49,7 @@ func create_mesh() -> void:
 	#
 	mesh = array_mesh
 	
-	var rotation_angle = PI / 2
+	var rotation_angle = PI / 3
 	
 	var new_planes = TransformFold.new().fold(
 		Vector3(5, 0, 0), Vector3(0, 0, -5), rotation_angle, [[1, 1]], [p1, p2]
