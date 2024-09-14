@@ -8,7 +8,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_od721"]
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_3sesl"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_dahc0"]
 _surfaces = [{
 "aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
 "format": 34359742465,
@@ -28,5 +28,5 @@ camera_attributes = SubResource("CameraAttributesPractical_qekac")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_override = SubResource("ShaderMaterial_od721")
-mesh = SubResource("ArrayMesh_3sesl")
+mesh = SubResource("ArrayMesh_dahc0")
 script = ExtResource("1_pgmcf")
