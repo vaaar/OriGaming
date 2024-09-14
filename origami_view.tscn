@@ -10,17 +10,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_od721"]
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_fr2qq"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_onvtf"]
 _surfaces = [{
-"aabb": AABB(-5, 0, -5, 10, 1e-05, 10),
-"format": 34359742465,
-"index_count": 9,
-"index_data": PackedByteArray(0, 0, 2, 0, 1, 0, 0, 0, 3, 0, 2, 0, 0, 0, 4, 0, 3, 0),
-"primitive": 3,
-"uv_scale": Vector4(0, 0, 0, 0),
-"vertex_count": 5,
-"vertex_data": PackedByteArray(0, 0, 160, 192, 0, 0, 0, 0, 0, 0, 160, 64, 0, 0, 160, 64, 0, 0, 0, 0, 0, 0, 160, 64, 0, 0, 160, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 160, 192, 0, 0, 160, 192, 0, 0, 0, 0, 0, 0, 160, 192)
-}, {
 "aabb": AABB(-5, 0, -5, 10, 1e-05, 10),
 "format": 34359742465,
 "index_count": 3,
@@ -28,7 +19,7 @@ _surfaces = [{
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 3,
-"vertex_data": PackedByteArray(0, 0, 160, 64, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 159, 192, 124, 240, 37, 53, 255, 255, 159, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 160, 192)
+"vertex_data": PackedByteArray(0, 0, 160, 192, 0, 0, 0, 0, 0, 0, 160, 64, 0, 0, 160, 64, 0, 0, 0, 0, 0, 0, 160, 64, 0, 0, 160, 192, 0, 0, 0, 0, 0, 0, 160, 192)
 }]
 
 [node name="Node3D" type="Node3D"]
@@ -37,13 +28,15 @@ _surfaces = [{
 environment = SubResource("Environment_2c0uj")
 camera_attributes = SubResource("CameraAttributesPractical_qekac")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment"]
 material_override = SubResource("ShaderMaterial_od721")
 mesh = SubResource("ArrayMesh_fr2qq")
 script = ExtResource("1_pgmcf")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-script = ExtResource("2_msiyr")
+[node name="Camera3D" type="Camera3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 15)
+fov = 100.0
+script = ExtResource("2_3ht8o")
 
 [node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
 
