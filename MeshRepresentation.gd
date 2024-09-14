@@ -3,6 +3,8 @@ extends Node
 const TriangularPlane := preload("res://TriangularPlane.gd")
 const TransformFold := preload("res://TransformFold.gd")
 
+@export var mesh_path : NodePath
+
 # Points defined as list of Vector2
 var points = [Vector3(0,1,0), Vector3(1,1,0), Vector3(1,0,0), Vector3(0,0,0)]
 var planes = [[0, 1, 2, 3]]
@@ -109,7 +111,11 @@ func fold():
 			triangular_plane_points.append(points[p])
 		triangular_planes.append(TriangularPlane.new(PackedVector3Array(triangular_plane_points)))
 	
-	transform_fold.fold(points[start_point], points[end_point], final_indices, triangular_planes)
+	var new_triangular_planes = triangular_planes
+	#var new_triangular_planes = transform_fold.fold(points[start_point], points[end_point], final_indices, triangular_planes)
+	get_node(mesh_path).recreate_plane_scene(new_triangular_planes)
+	# todo, update the points in my representation
+	
 
 # Computes distance between a point A and line BC.
 # https://math.stackexchange.com/questions/1905533/find-perpendicular-distance-from-point-to-line-in-3d
