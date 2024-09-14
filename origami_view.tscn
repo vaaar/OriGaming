@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cx34wy0jou3xl"]
+[gd_scene load_steps=8 format=3 uid="uid://cx34wy0jou3xl"]
 
 [ext_resource type="Script" path="res://mesh.gd" id="1_pgmcf"]
 [ext_resource type="Script" path="res://Camera.gd" id="2_msiyr"]
 [ext_resource type="Script" path="res://MeshRepresentation.gd" id="3_s8woa"]
-[ext_resource type="Script" path="res://transform_fold.gd" id="4_umq3s"]
 
 [sub_resource type="Environment" id="Environment_2c0uj"]
 
@@ -11,7 +10,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_od721"]
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_rgirc"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_fr2qq"]
 _surfaces = [{
 "aabb": AABB(-5, 0, -5, 10, 1e-05, 10),
 "format": 34359742465,
@@ -40,7 +39,7 @@ camera_attributes = SubResource("CameraAttributesPractical_qekac")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_override = SubResource("ShaderMaterial_od721")
-mesh = SubResource("ArrayMesh_rgirc")
+mesh = SubResource("ArrayMesh_fr2qq")
 script = ExtResource("1_pgmcf")
 
 [node name="Camera3D" type="Camera3D" parent="."]
@@ -52,6 +51,3 @@ script = ExtResource("2_msiyr")
 
 [node name="MeshRepresentation" type="Node3D" parent="."]
 script = ExtResource("3_s8woa")
-
-[node name="TransformFold" type="Node3D" parent="MeshRepresentation"]
-script = ExtResource("4_umq3s")

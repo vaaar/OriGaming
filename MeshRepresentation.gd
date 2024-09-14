@@ -1,13 +1,15 @@
 extends Node
 
 const TriangularPlane := preload("res://TriangularPlane.gd")
+const TransformFold := preload("res://TransformFold.gd")
 
 # Points defined as list of Vector2
 var points = [Vector3(0,1,0), Vector3(1,1,0), Vector3(1,0,0), Vector3(0,0,0)]
 var planes = [[0, 1, 2, 3]]
 # Line defined as indices
 var start_point = 0
-var end_point = 0
+var end_point = 2
+var transform_fold : TransformFold;
 
 enum Mode {
 	SELECTING_POINT_1,
@@ -22,6 +24,7 @@ const OUTSIDE_FOLD = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	transform_fold = TransformFold.new()
 	start_point = 0
 	end_point = 2
 	fold()
@@ -38,19 +41,35 @@ func on_point_click(pt):
 func _process(delta: float) -> void:
 	pass
 
-func get_points_from_fold(start_pt, end_pt, pts, is_inside):
+func append_arr(arr1, arr2):
+	if (arr2 != null):
+		arr1.append_array(arr2)
+
+func get_points_from_fold(start_pt, end_pt, pts, is_inside, include_line):
 	if (is_inside): 
-		return range(start_pt + 1, end_pt)
+		var arr = []
+		append_arr(arr, range(start_pt + 1, end_pt))
+		print(arr)
+		if include_line:
+			arr.insert(0, start_pt)
+			arr.append(end_pt)
+		print(arr)
+		return arr
 	else: 
-		var arr = range(0, start_pt)
-		arr.append_array(range(end_pt + 1, len(pts)))
+		var arr = []
+		append_arr(arr, range(0, start_pt))
+		if include_line:
+			arr.insert(0, start_pt)
+			arr.append(end_pt)
+		append_arr(arr, range(end_pt + 1, len(pts)))
 		return arr
 		
+
 func get_changed_points_from_fold(start_pt, end_pt, pts):
 	var new_pts
 	var l1 = start_pt - end_pt - 1
 	var l2 = len(pts) - l1 - 2
-	return get_points_from_fold(start_pt, end_pt, pts, l1 <= l2)
+	return get_points_from_fold(start_pt, end_pt, pts, l1 <= l2, false)
 		
 func fold():
 	var skip = false
@@ -61,8 +80,8 @@ func fold():
 		var plane_start_pt = planes[i].find(start_point)
 		var plane_end_pt = planes[i].find(end_point)
 		if (plane_start_pt != -1 and plane_end_pt != -1):
-			var inside_pts = get_points_from_fold(plane_start_pt, plane_end_pt, planes[i], INSIDE_FOLD)
-			var outside_pts = get_points_from_fold(plane_start_pt, plane_end_pt, planes[i], OUTSIDE_FOLD)
+			var inside_pts = get_points_from_fold(plane_start_pt, plane_end_pt, planes[i], INSIDE_FOLD, true)
+			var outside_pts = get_points_from_fold(plane_start_pt, plane_end_pt, planes[i], OUTSIDE_FOLD, true)
 			var inside_plane = []
 			var outside_plane = []
 			for j in inside_pts: 
@@ -90,7 +109,7 @@ func fold():
 			triangular_plane_points.append(points[p])
 		triangular_planes.append(TriangularPlane.new(PackedVector3Array(triangular_plane_points)))
 	
-	$TransformFold.fold(points[start_point], points[end_point], final_indices, triangular_planes)
+	transform_fold.fold(points[start_point], points[end_point], final_indices, triangular_planes)
 
 # Computes distance between a point A and line BC.
 # https://math.stackexchange.com/questions/1905533/find-perpendicular-distance-from-point-to-line-in-3d
