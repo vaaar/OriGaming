@@ -12,7 +12,6 @@ func _ready() -> void:
 func set_origin_view(point_to_face = Vector3(0,0,0)):
 	look_at(point_to_face)
 	
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass

@@ -2,6 +2,7 @@
 extends MeshInstance3D
 
 @export var update = false 
+@export var curr_rot = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -54,7 +55,15 @@ func recreate_plane_scene(planes):
 		new_arraymesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, next_mesh)
 	
 	mesh = new_arraymesh
-
+	
+func rotate_through_vertical_axis(angle: float):
+	rotate_y(deg_to_rad(angle))
+	
+func _input(event: InputEvent):
+	if Input.is_key_pressed(KEY_LEFT):
+		rotate_through_vertical_axis(-10)
+	elif Input.is_key_pressed(KEY_RIGHT):
+		rotate_through_vertical_axis(+10)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
