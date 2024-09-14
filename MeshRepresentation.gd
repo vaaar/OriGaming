@@ -47,7 +47,11 @@ func get_changed_points_from_fold(start_pt, end_pt, pts):
 	return get_points_from_fold(start_pt, end_pt, pts, l1 <= l2)
 		
 func fold():
+	var skip = false
 	for i in range(0, len(planes)):
+		if skip: 
+			skip = false
+			continue
 		var plane_start_pt = planes[i].find(start_point)
 		var plane_end_pt = planes[i].find(end_point)
 		if (plane_start_pt != -1 and plane_end_pt != -1):
@@ -58,10 +62,33 @@ func fold():
 			for j in inside_pts: 
 				inside_plane.append(planes[i][j])
 			for k in outside_pts:
-				outside_plane.append(planes[i][j])
-			outs
-			
-			
+				outside_plane.append(planes[i][k])
+			planes[i] = inside_plane
+			planes.insert(i + 1, outside_plane)
+			skip = true
+	
+	var triangular_planes = []
+	var indices_to_modify = get_changed_points_from_fold(start_point, end_point, points)
+	var final_indices = []
+	
+	for p in range(0, len(planes)):
+		for i in indices_to_modify:
+			if planes[p].has(i):
+				final_indices.append([p, planes[p].find(i)])
+	
+	for plane in planes:
+		var triangular_plane_points = []
+		for p in plane:
+			triangular_plane_points.append(points[p])
+		triangular_planes.append(TriangularPlane(PackedVector3Array(triangular_plane_points)))
+	
+	rotate_points_about_line(start_point, end_point, final_indices, triangular_planes)
+				
+				
+	
+	
+	
+	
 	
 # Computes distance between a point A and line BC.
 # https://math.stackexchange.com/questions/1905533/find-perpendicular-distance-from-point-to-line-in-3d
