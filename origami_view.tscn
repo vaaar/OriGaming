@@ -32,6 +32,7 @@ material_override = SubResource("ShaderMaterial_od721")
 mesh = SubResource("ArrayMesh_onvtf")
 skeleton = NodePath("../..")
 script = ExtResource("1_pgmcf")
+curr_rot = null
 
 [node name="Camera3D" type="Camera3D" parent="WorldEnvironment"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 15)
