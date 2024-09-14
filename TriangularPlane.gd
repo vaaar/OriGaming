@@ -14,12 +14,12 @@ func _init(plane_points: PackedVector3Array):
 			
 		_points_arr.push_back(curr_point)
 	
-	print("Hello world\n")	
-	print("Points:")
-	print(_points_arr)
-	
-	print("Indices:")
-	print(_indices_arr)
+	#print("Hello world\n")	
+	#print("Points:")
+	#print(_points_arr)
+	#
+	#print("Indices:")
+	#print(_indices_arr)
 	
 func export_surface():
 	var array = []
