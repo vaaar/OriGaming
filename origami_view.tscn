@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=4 uid="uid://cx34wy0jou3xl"]
+[gd_scene load_steps=7 format=4 uid="uid://cx34wy0jou3xl"]
 
 [ext_resource type="Script" path="res://mesh.gd" id="1_pgmcf"]
+[ext_resource type="Script" path="res://Camera.gd" id="2_msiyr"]
 
 [sub_resource type="Environment" id="Environment_2c0uj"]
 
@@ -8,7 +9,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_od721"]
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_3sesl"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_2030e"]
 _surfaces = [{
 "aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
 "format": 34359742465,
@@ -28,5 +29,12 @@ camera_attributes = SubResource("CameraAttributesPractical_qekac")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_override = SubResource("ShaderMaterial_od721")
-mesh = SubResource("ArrayMesh_3sesl")
+mesh = SubResource("ArrayMesh_2030e")
 script = ExtResource("1_pgmcf")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+script = ExtResource("2_msiyr")
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="."]
