@@ -15,3 +15,7 @@ config/description="Project for VTHacks '24"
 run/main_scene="res://origami_view.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"

@@ -8,16 +8,16 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_od721"]
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_dahc0"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_ep6bx"]
 _surfaces = [{
-"aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
+"aabb": AABB(-10, 0, -5, 15, 1e-05, 16),
 "format": 34359742465,
-"index_count": 3,
-"index_data": PackedByteArray("AAABAAIA"),
+"index_count": 12,
+"index_data": PackedByteArray("AAACAAEAAAADAAIAAAAEAAMAAAAFAAQA"),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 6,
-"vertex_data": PackedByteArray("AACAvwAAAAAAAIC/AACAPwAAAAAAAIC/AACAPwAAAAAAAIA/AACAvwAAAAAAAIA/AAAAAAAAAAAAAIA/AACAPwAAAAAAAAAA")
+"vertex_data": PackedByteArray("AAAgwQAAAAAAAMBAAACgwAAAAAAAACBBAACAPwAAAAAAADBBAACgQAAAAAAAAKBAAACgQAAAAAAAAKDAAADAwAAAAAAAAIA/")
 }]
 
 [node name="Node3D" type="Node3D"]
@@ -28,5 +28,5 @@ camera_attributes = SubResource("CameraAttributesPractical_qekac")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 material_override = SubResource("ShaderMaterial_od721")
-mesh = SubResource("ArrayMesh_dahc0")
+mesh = SubResource("ArrayMesh_ep6bx")
 script = ExtResource("1_pgmcf")
