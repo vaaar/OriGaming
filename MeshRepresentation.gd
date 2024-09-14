@@ -1,8 +1,10 @@
 extends Node
 
+const TriangularPlane := preload("res://TriangularPlane.gd")
+
 # Points defined as list of Vector2
-var points = []
-var planes = []
+var points = [Vector3(0,1,0), Vector3(1,1,0), Vector3(1,0,0), Vector3(0,0,0)]
+var planes = [[0, 1, 2, 3]]
 # Line defined as indices
 var start_point = 0
 var end_point = 0
@@ -20,7 +22,11 @@ const OUTSIDE_FOLD = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	start_point = 0
+	end_point = 2
+	fold()
+	print(points)
+	print(planes)
 
 # Called when user clicks a point in space & collides.
 func on_point_click(pt):
@@ -67,29 +73,25 @@ func fold():
 			planes.insert(i + 1, outside_plane)
 			skip = true
 	
-	var triangular_planes = []
+	var triangular_planes : Array[TriangularPlane] = []
 	var indices_to_modify = get_changed_points_from_fold(start_point, end_point, points)
 	var final_indices = []
 	
+	# Generate Final Indices
 	for p in range(0, len(planes)):
 		for i in indices_to_modify:
 			if planes[p].has(i):
 				final_indices.append([p, planes[p].find(i)])
 	
+	# Generate Triangular Planes
 	for plane in planes:
 		var triangular_plane_points = []
 		for p in plane:
 			triangular_plane_points.append(points[p])
-		triangular_planes.append(TriangularPlane(PackedVector3Array(triangular_plane_points)))
+		triangular_planes.append(TriangularPlane.new(PackedVector3Array(triangular_plane_points)))
 	
-	rotate_points_about_line(start_point, end_point, final_indices, triangular_planes)
-				
-				
-	
-	
-	
-	
-	
+	$TransformFold.fold(points[start_point], points[end_point], final_indices, triangular_planes)
+
 # Computes distance between a point A and line BC.
 # https://math.stackexchange.com/questions/1905533/find-perpendicular-distance-from-point-to-line-in-3d
 func compute_distance(A, B, C):
@@ -108,7 +110,7 @@ func compute_closest_point(A, B, C):
 	return P
 
 func get_closest_point(pt):
-	var closest_dist = 10000000000000000000
+	var closest_dist = INF
 	var closest_start = 0
 	var closest_end = 0
 	var temp_dist = 0
@@ -139,14 +141,3 @@ func get_closest_point(pt):
 	else: # Case where we make new point on a line
 		points.insert(closest_end, compute_closest_point(pt, closest_start, closest_end))
 		return closest_end
-
-
-# TO BE IMPLEMENTED!!!!!
-# start pt - Vector3, end pt - Vector3, indexes - list of int * int tuple *cough* list, planes - list of list of Vector3
-func rotate_points_about_line(start_pt, end_pt, indices, planes):
-	return points;
-		
-			
-			
-		
-	

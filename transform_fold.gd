@@ -9,7 +9,7 @@ func fold(
 	var vertices_arr: Array[PackedVector3Array] = []
 	
 	for plane in planes:
-		vertices_arr.append(plane.export_surface()["vertices"])
+		vertices_arr.append(plane.export_surface()["points"])
 	
 	var angle = PI
 	var axis: Vector3 = (fl_end - fl_start).normalized()
