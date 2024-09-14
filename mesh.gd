@@ -45,6 +45,7 @@ func create_mesh() -> void:
 	#
 	#array[Mesh.ARRAY_INDEX] = indices2
 	#array_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, array)
+<<<<<<< HEAD
 	
 	#var test_vertices = PackedVector3Array(
 		#[
@@ -72,6 +73,33 @@ func create_mesh() -> void:
 	array[Mesh.ARRAY_VERTEX] = vert_arr
 	array[Mesh.ARRAY_INDEX] = ind_arr
 	array_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, array)
+=======
+	
+	var test_vertices = PackedVector3Array(
+		[
+			Vector3(-10,0, 6),
+			Vector3(-5,0, 10),
+			Vector3(1,0, 11),
+			Vector3(5,0, 5),
+			Vector3(5,0, -5),
+			Vector3(-6,0, 1),
+		]
+	)
+	
+	#var test_vertices = PackedVector3Array([
+		#Vector3(-5,0,5),
+		#Vector3(5,0,5),
+		#Vector3(5,0,-5),
+		##Vector3(-5,0,-5),
+	#])
+	
+	var tp = TriangularPlane.new(test_vertices)
+	
+	var surf = tp.export_surface()
+	
+	var array = surf["mesh_array"]
+	array_mesh.add_surface_from_arrays(surf["primitive"], array)
+>>>>>>> 0c830aa (change var names in triangularplane)
 	
 	mesh = array_mesh
 
