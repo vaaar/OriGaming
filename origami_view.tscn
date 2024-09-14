@@ -1,11 +1,32 @@
-[gd_scene load_steps=3 format=3 uid="uid://cx34wy0jou3xl"]
+[gd_scene load_steps=6 format=4 uid="uid://cx34wy0jou3xl"]
 
 [ext_resource type="Script" path="res://mesh.gd" id="1_pgmcf"]
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_arrbf"]
+[sub_resource type="Environment" id="Environment_2c0uj"]
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_qekac"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_od721"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_3sesl"]
+_surfaces = [{
+"aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
+"format": 34359742465,
+"index_count": 3,
+"index_data": PackedByteArray("AAABAAIA"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 6,
+"vertex_data": PackedByteArray("AACAvwAAAAAAAIC/AACAPwAAAAAAAIC/AACAPwAAAAAAAIA/AACAvwAAAAAAAIA/AAAAAAAAAAAAAIA/AACAPwAAAAAAAAAA")
+}]
 
 [node name="Node3D" type="Node3D"]
 
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_2c0uj")
+camera_attributes = SubResource("CameraAttributesPractical_qekac")
+
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-mesh = SubResource("ArrayMesh_arrbf")
+material_override = SubResource("ShaderMaterial_od721")
+mesh = SubResource("ArrayMesh_3sesl")
 script = ExtResource("1_pgmcf")
