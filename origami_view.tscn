@@ -11,14 +11,14 @@
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_2030e"]
 _surfaces = [{
-"aabb": AABB(-1, 0, -1, 2, 1e-05, 2),
+"aabb": AABB(-10, 0, -5, 15, 1e-05, 16),
 "format": 34359742465,
-"index_count": 3,
-"index_data": PackedByteArray("AAABAAIA"),
+"index_count": 12,
+"index_data": PackedByteArray("AAACAAEAAAADAAIAAAAEAAMAAAAFAAQA"),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 6,
-"vertex_data": PackedByteArray("AACAvwAAAAAAAIC/AACAPwAAAAAAAIC/AACAPwAAAAAAAIA/AACAvwAAAAAAAIA/AAAAAAAAAAAAAIA/AACAPwAAAAAAAAAA")
+"vertex_data": PackedByteArray("AAAgwQAAAAAAAMBAAACgwAAAAAAAACBBAACAPwAAAAAAADBBAACgQAAAAAAAAKBAAACgQAAAAAAAAKDAAADAwAAAAAAAAIA/")
 }]
 
 [node name="Node3D" type="Node3D"]
