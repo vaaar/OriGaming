@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=4 uid="uid://cx34wy0jou3xl"]
+[gd_scene load_steps=7 format=4 uid="uid://cx34wy0jou3xl"]
 
 [ext_resource type="Script" path="res://mesh.gd" id="1_pgmcf"]
+[ext_resource type="Script" path="res://camera_3d.gd" id="2_3ht8o"]
 
 [sub_resource type="Environment" id="Environment_2c0uj"]
 
@@ -8,7 +9,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_od721"]
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_ep6bx"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_6r6sh"]
 _surfaces = [{
 "aabb": AABB(-10, 0, -5, 15, 1e-05, 16),
 "format": 34359742465,
@@ -26,7 +27,13 @@ _surfaces = [{
 environment = SubResource("Environment_2c0uj")
 camera_attributes = SubResource("CameraAttributesPractical_qekac")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment"]
 material_override = SubResource("ShaderMaterial_od721")
-mesh = SubResource("ArrayMesh_ep6bx")
+mesh = SubResource("ArrayMesh_6r6sh")
+skeleton = NodePath("../..")
 script = ExtResource("1_pgmcf")
+
+[node name="Camera3D" type="Camera3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 15)
+fov = 100.0
+script = ExtResource("2_3ht8o")
