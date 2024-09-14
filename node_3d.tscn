@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://cx34wy0jou3xl"]
+
+[ext_resource type="Script" path="res://mesh.gd" id="1_pgmcf"]
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_arrbf"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("ArrayMesh_arrbf")
+script = ExtResource("1_pgmcf")
