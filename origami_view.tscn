@@ -29,7 +29,7 @@ environment = SubResource("Environment_2c0uj")
 camera_attributes = SubResource("CameraAttributesPractical_qekac")
 
 [node name="MainMesh" type="MeshInstance3D" parent="WorldEnvironment"]
-transform = Transform3D(0.384237, -0.144815, 0.911844, 0.57708, -0.733317, -0.359602, 0.72074, 0.664339, -0.198217, 0, 0, 0)
+transform = Transform3D(1.00006, 0, 0, 0, 1.00004, 0, 0, 0, 1.00003, 0, 0, 0)
 mesh = SubResource("ArrayMesh_0w4ge")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("1_yweo6")
@@ -121,3 +121,6 @@ mesh_path = NodePath("../WorldEnvironment/MainMesh")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 10)
 script = ExtResource("2_3ht8o")
+
+[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
+hit_from_inside = true

@@ -57,7 +57,6 @@ func recreate_plane_scene(planes):
 		var next_mesh = exp["mesh_array"]
 		new_arraymesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, next_mesh)
 		new_arraymesh.surface_set_material(p_ind, preload("res://mesh_no_culling_mat.tres"))
-		
 	
 	mesh = new_arraymesh
-	
+	create_trimesh_collision()

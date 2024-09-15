@@ -165,7 +165,7 @@ func compute_distance(A, B, C):
 	return (P - A).length()
 
 # Computes closest point to A that lies on line BC.
-func compute_closest_point(A, B, C):
+func compute_closest_point(A: Vector3, B: Vector3, C: Vector3):
 	var d = (C - B) / (C - B).length()
 	var v = A - B
 	var t = v.dot(d)
@@ -199,8 +199,8 @@ func get_closest_point(pt):
 			closest_start = temp_start
 			closest_end = temp_end
 		
-	if (closest_end == -1): # Case where we return pre existing point
+	if (closest_end == -1): # Case where we return pre existing points
 		return closest_start
 	else: # Case where we make new point on a line
-		points.insert(closest_end, compute_closest_point(pt, closest_start, closest_end))
+		points.insert(closest_end, compute_closest_point(pt,points[closest_start], points[closest_end]))
 		return closest_end
