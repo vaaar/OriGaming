@@ -1,18 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://cx34wy0jou3xl"]
+[gd_scene load_steps=11 format=3 uid="uid://cx34wy0jou3xl"]
 
 [ext_resource type="Texture2D" uid="uid://dk7li4ltxhvs" path="res://panorama_image.png" id="1_0k50a"]
 [ext_resource type="Script" path="res://mesh.gd" id="1_pgmcf"]
 [ext_resource type="Material" uid="uid://bejvksobow3db" path="res://mesh_no_culling_mat.tres" id="1_yweo6"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_3ht8o"]
 [ext_resource type="Script" path="res://MeshRepresentation.gd" id="3_l5n77"]
-[ext_resource type="Material" uid="uid://dk8bs6hyjha5l" path="res://start_circle_mat.tres" id="5_kculm"]
-[ext_resource type="Material" uid="uid://c6j4lq7p8tyv0" path="res://end_circle_mat.tres" id="6_uj1t2"]
-
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_8sj4r"]
-panorama = ExtResource("1_0k50a")
-
-[sub_resource type="Sky" id="Sky_71ghr"]
-sky_material = SubResource("PanoramaSkyMaterial_8sj4r")
+[ext_resource type="Theme" uid="uid://r0kkedwkxh8a" path="res://new_theme.tres" id="3_wfdl6"]
+[ext_resource type="Material" path="res://start_circle_mat.tres" id="5_kculm"]
+[ext_resource type="Material" path="res://end_circle_mat.tres" id="6_uj1t2"]
 
 [sub_resource type="Environment" id="Environment_2c0uj"]
 background_mode = 2
@@ -64,7 +59,8 @@ size_flags_vertical = 0
 
 [node name="Label" type="Label" parent="WorldEnvironment/MarginContainer/NewModelContainer"]
 layout_mode = 2
-text = "New Model"
+theme = ExtResource("3_wfdl6")
+text = "new model"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="WorldEnvironment/MarginContainer"]
 layout_mode = 2
@@ -76,22 +72,27 @@ layout_mode = 2
 columns = 4
 
 [node name="Label" type="Label" parent="WorldEnvironment/MarginContainer/VBoxContainer/GridContainer"]
+visible = false
 layout_mode = 2
 text = "Face:"
 
 [node name="FaceX" type="Button" parent="WorldEnvironment/MarginContainer/VBoxContainer/GridContainer"]
+visible = false
 layout_mode = 2
 text = "X"
 
 [node name="FaceY" type="Button" parent="WorldEnvironment/MarginContainer/VBoxContainer/GridContainer"]
+visible = false
 layout_mode = 2
 text = "Y"
 
 [node name="FaceZ" type="Button" parent="WorldEnvironment/MarginContainer/VBoxContainer/GridContainer"]
+visible = false
 layout_mode = 2
 text = "Z"
 
 [node name="PanViewportButton" type="Button" parent="WorldEnvironment/MarginContainer/VBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Pan Viewport"
 
@@ -108,10 +109,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 4
+theme = ExtResource("3_wfdl6")
 
 [node name="OperationStatusLabel" type="Label" parent="VBoxContainer"]
 layout_mode = 2
-text = "No fold/point selected."
+theme = ExtResource("3_wfdl6")
+text = "no fold/point selected."
 horizontal_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
@@ -122,6 +125,7 @@ alignment = 1
 layout_mode = 2
 
 [node name="CommitButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+visible = false
 layout_mode = 2
 text = "Fold!"
 
@@ -148,3 +152,5 @@ material = ExtResource("5_kculm")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 10, 10)
 radius = 0.2
 material = ExtResource("6_uj1t2")
+
+[connection signal="pressed" from="WorldEnvironment/MarginContainer/VBoxContainer/GridContainer/FaceY" to="Camera3D" method="face_y"]

@@ -38,31 +38,38 @@ func spherical_to_cartesian(coords):
 	
 	return Vector3(x, y, z)
 
+func face_y():
+	var curr_sph = cartesian_to_spherical(position)
+	curr_sph[1] = 0
+	curr_sph[2] = 0
+	
+	position = spherical_to_cartesian(curr_sph)
+	look_at(Vector3(0,0,0))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 # kidscancode.org/godot_recipes/3.x/3d/camera_gimbal/index.html
 func _process(delta: float) -> void:
 	var curr_cartesian = position
 	var curr_spherical = cartesian_to_spherical(curr_cartesian)
-	var speed = 10
-	var multiplier = 0.02
+	var speed = 7
+	#var multiplier = 0.02
 	
 	if Input.is_key_pressed(KEY_LEFT):
 		##rotate_through_vertical_axis(-speed * delta)
-		curr_spherical[1] -= PI/6 * delta
+		curr_spherical[1] -= PI/6 * delta * speed
 		update_frame = true
 		#y_rot -= 1
 	elif Input.is_key_pressed(KEY_RIGHT):
 		##rotate_through_vertical_axis(speed * delta)
-		curr_spherical[1] += PI/6 * delta
+		curr_spherical[1] += PI/6 * delta * speed
 		update_frame = true
 	elif Input.is_key_pressed(KEY_UP):
 		##rotate_through_horizontal_axis(-speed * delta)
-		curr_spherical[2] -= PI/6 * delta
+		curr_spherical[2] -= PI/6 * delta * speed
 		update_frame = true
 	elif Input.is_key_pressed(KEY_DOWN):
 		##rotate_through_horizontal_axis(speed * delta)
-		curr_spherical[2] += PI/6 * delta
+		curr_spherical[2] += PI/6 * delta * speed
 		update_frame = true
 	
 	if update_frame:
@@ -100,7 +107,10 @@ func _process(delta: float) -> void:
 # If raycast hits object, the collision point is given to Mesh Representation.
 func _input(event):
 	#if event is InputEventMouseButton:
-	#click(event.position)
+		#if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			#print("Left button was clicked at ", event.position)
+		#if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
+			#print("Wheel up")
 	pass
 
 func click(mousepos):
@@ -118,6 +128,7 @@ func click(mousepos):
 		
 		var fmt_str = "Collision point: %v"
 		print(fmt_str % [collision_point])
+		
 		
 		#var sphere = CSGSphere3D.new()
 		#sphere.radius = 0.1
