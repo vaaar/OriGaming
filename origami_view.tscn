@@ -4,8 +4,8 @@
 [ext_resource type="Material" uid="uid://bejvksobow3db" path="res://mesh_no_culling_mat.tres" id="1_yweo6"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_3ht8o"]
 [ext_resource type="Script" path="res://MeshRepresentation.gd" id="3_l5n77"]
-[ext_resource type="Material" uid="uid://dk8bs6hyjha5l" path="res://start_circle_mat.tres" id="5_kculm"]
-[ext_resource type="Material" uid="uid://c6j4lq7p8tyv0" path="res://end_circle_mat.tres" id="6_uj1t2"]
+[ext_resource type="Material" path="res://start_circle_mat.tres" id="5_kculm"]
+[ext_resource type="Material" path="res://end_circle_mat.tres" id="6_uj1t2"]
 
 [sub_resource type="Environment" id="Environment_2c0uj"]
 
