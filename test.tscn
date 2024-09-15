@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bfsu472tawdjk"]
+
+[node name="Test" type="Node3D"]
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1150.0
+offset_bottom = 647.0
