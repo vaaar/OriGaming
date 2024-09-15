@@ -4,19 +4,22 @@ const TriangularPlane := preload("res://TriangularPlane.gd")
 const TransformFold := preload("res://TransformFold.gd")
 
 @export var mesh_path : NodePath
-
+@export var start_circle_path : NodePath
+@export var end_circle_path : NodePath
+@export var circle_radius = 0.2
+@export var snap_existing_point_radius = 1.0
 var debug_tp_old = []
 var debug_tp_new = []
 # Points defined as list of Vector2
 var points = [
 	Vector3(-10, 0, 10), 
 	Vector3(10,0,10), 
-	Vector3(10, 0, 0), 
+	#Vector3(10, 0, 0), 
 	Vector3(10, 0, -10), 
-	Vector3(0, 0, -10), 
+	#Vector3(0, 0, -10), 
 	Vector3(-10, 0, -10)
 ]
-var planes = [[0, 1, 2, 3, 4, 5]]
+var planes = [[0, 1, 2, 3]]
 
 #var points = [
 	#Vector3(-10, 10, 0),
@@ -37,33 +40,50 @@ enum Mode {
 	SELECTING_ANGLE,
 }
 
-var mode : Mode
+var mode : Mode = Mode.SELECTING_POINT_1
 
 const INSIDE_FOLD = true;
 const OUTSIDE_FOLD = false;
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	
 	transform_fold = TransformFold.new()
+	get_node(start_circle_path).radius = 0.001
+	get_node(end_circle_path).radius = 0.001
 	#start_point = 1
 	#end_point = 3
-	fold()
+	#fold()
 	print(points)
 	print(planes)
+	
+	var triangular_planes = generate_triangular_planes()
+	get_node(mesh_path).recreate_plane_scene(triangular_planes)
 
 func _input(event):
-	if event is InputEventKey and event.pressed:
-		if event.keycode == KEY_N:
-			print("N was pressed")
+	pass
+	#if event is InputEventKey and event.pressed:
+		#if event.keycode == KEY_N:
+			#print("N was pressed")
 			#get_node(mesh_path).recreate_plane_scene(debug_tp_new)
-		if event.keycode == KEY_M:
-			print("M was pressed")
+		#if event.keycode == KEY_M:
+			#print("M was pressed")
 			#get_node(mesh_path).recreate_plane_scene(debug_tp_old)
 # Called when user clicks a point in space & collides.
 func on_point_click(pt):
 	var closest_pt = get_closest_point(pt)
-	if (mode == Mode.SELECTING_POINT_1): start_point = closest_pt
-	else: end_point = closest_pt
+	if (mode == Mode.SELECTING_POINT_1): 
+		start_point = closest_pt
+		get_node(start_circle_path).global_position = points[start_point]
+		get_node(start_circle_path).radius = circle_radius
+		mode = Mode.SELECTING_POINT_2
+		
+	else: 
+		end_point = closest_pt
+		get_node(end_circle_path).global_position = points[end_point]
+		get_node(end_circle_path).radius = circle_radius
+		mode = Mode.SELECTING_ANGLE
+		fold()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -104,7 +124,7 @@ func get_changed_points_from_fold(start_pt, end_pt, pts):
 	var l2 = len(pts) - l1 - 2
 	return get_points_from_fold(start_pt, end_pt, pts, l1 <= l2, false)
 		
-func fold():
+func fold(rad = PI):
 	var skip = false
 	for i in range(0, len(planes)):
 		if skip: 
@@ -148,8 +168,8 @@ func fold():
 	#var new_triangular_planes = triangular_planes
 	print("Current rendered plane indices")
 	print(planes)
-	var new_triangular_planes = transform_fold.fold(points[start_point], points[end_point], PI/4, final_indices, triangular_planes.duplicate())
-	get_node(mesh_path).recreate_plane_scene(new_triangular_planes)
+	var new_triangular_planes = transform_fold.fold(points[start_point], points[end_point], rad, final_indices, triangular_planes)
+	get_node(mesh_path).recreate_plane_scene(triangular_planes)
 	# todo, update the points in my representation
 	# debug
 	
@@ -164,6 +184,15 @@ func compute_distance(A, B, C):
 	var P = B + t * d
 	return (P - A).length()
 
+func generate_triangular_planes():
+	var triangular_planes = []
+	for plane in planes:
+		var triangular_plane_points = []
+		for p in plane:
+			triangular_plane_points.append(points[p])
+		triangular_planes.append(TriangularPlane.new(PackedVector3Array(triangular_plane_points)))
+	return triangular_planes
+
 # Computes closest point to A that lies on line BC.
 func compute_closest_point(A: Vector3, B: Vector3, C: Vector3):
 	var d = (C - B) / (C - B).length()
@@ -173,10 +202,10 @@ func compute_closest_point(A: Vector3, B: Vector3, C: Vector3):
 	return P
 
 func get_closest_point(pt):
-	var closest_dist = INF
+	var closest_dist = 10000
 	var closest_start = 0
 	var closest_end = 0
-	var temp_dist = 0
+	var temp_dist = 0.0
 	var temp_start = 0
 	var temp_end = 0
 	for i in range(0, len(points)):
@@ -184,23 +213,78 @@ func get_closest_point(pt):
 		temp_start = i
 		temp_end = i + 1
 		if temp_end >= len(points): temp_end = 0
-		
+		"""
 		# Account for the case that closest point is already included in the list
 		temp_dist = (points[i] - pt).length()
 		if (temp_dist < closest_dist):
 			closest_dist = temp_dist
-			closest_start = 0
+			closest_start = i
 			closest_end = -1
-			
-		# Account for the case that we need to create a new point on a preexisting line
+			print(closest_end)
+		if (temp_dist <= snap_existing_point_radius):
+			closest_dist = -10000
+			closest_start = i
+			closest_end -1
+		"""
+		
+		#if (closest_dist > 0):
+			# Account for the case that we need to create a new point on a preexisting line
 		temp_dist = compute_distance(pt, points[temp_start], points[temp_end])
 		if (temp_dist < closest_dist):
 			closest_dist = temp_dist
 			closest_start = temp_start
 			closest_end = temp_end
 		
-	if (closest_end == -1): # Case where we return pre existing points
+		print("i %s | td %s | ts %s | te %s | cd %s | cs %s | ce %s" % [i, temp_dist, temp_start, temp_end, closest_dist, closest_start, closest_end])
+	
+	print("closest dist " + str(closest_dist))
+	print("closest start " + str(closest_start))
+	print("closest end " + str(closest_end))
+	if (false and closest_end == -1 || closest_dist < 0): # Case where we return pre existing points
+		print("WE SNAP POINT")
 		return closest_start
 	else: # Case where we make new point on a line
+		print("WE INSERT POINT")
 		points.insert(closest_end, compute_closest_point(pt,points[closest_start], points[closest_end]))
+		
+		var closest_mid = closest_end
+		closest_end = closest_end + 1
+		if (closest_start > closest_end):
+			closest_start += 1
+		
+		# ADJUST PLANE INDICES FOR NEW POINT
+		print("CLOSEST START INSERT " + str(closest_start))
+		print("CLOSEST END INSERT " + str(closest_end))
+		for p in range(0, len(planes)):
+			for i in range(0, len(planes[p])):
+				if (planes[p][i] >= closest_mid):
+					planes[p][i] = planes[p][i] + 1
+		
+		# ADD POINT AT ANY INSTANCE OF LINE BETWEEN CLOSEST START AND (CLOSEST END + 1)
+		
+		print(planes[0])
+		for p in range(0, len(planes)):
+			for i in range(0, len(planes[p])):
+				len(planes[p])
+				
+				if (i == len(planes[p]) - 1):
+					print("ccaaaa")
+					print(planes[p][i])
+					print(planes[p][0])
+					if (planes[p][i] == closest_start and planes[p][0] == closest_end):
+						print("ddaaa")
+						planes[p].append(closest_mid)
+					elif (planes[p][i] == closest_end and planes[p][0] == closest_start):
+						planes[p].append(closest_mid)
+				else:
+					if (planes[p][i] == closest_start and planes[p][i + 1] == closest_end):
+						planes[p].insert(i + 1, closest_mid)
+					elif (planes[p][i] == closest_end + 1 and planes[p][i + 1] == closest_start):
+						planes[p].insert(i + 1, closest_mid)
+				
+				if (p == 0):
+					print("i %s | cs %s | cm %s | ce %s | pts %s" % [i, closest_start, closest_mid, closest_end, planes[p]])
+		
+		print(planes[0])
+				
 		return closest_end

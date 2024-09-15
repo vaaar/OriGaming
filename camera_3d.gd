@@ -71,6 +71,8 @@ func _process(delta: float) -> void:
 		set_origin_view()
 		update_frame = false
 	
+	if Input.is_action_just_pressed("click"):
+		click(get_viewport().get_mouse_position())
 	#if Input.is_action_just_pressed("click"):
 		
 		#var mousepos = get_viewport().get_mouse_position() + (Vector2.UP * get_viewport().get_visible_rect().size.y / 2)
@@ -96,9 +98,9 @@ func _process(delta: float) -> void:
 # Gets the mouse click. Uses it to compute world position. Uses that to create raycast. 
 # If raycast hits object, the collision point is given to Mesh Representation.
 func _input(event):
-	if event is InputEventMouseButton:
-		click(event.position)
-		pass
+	#if event is InputEventMouseButton:
+	#click(event.position)
+	pass
 
 func click(mousepos):
 	#mousepos = get_viewport().get_mouse_position()
@@ -109,6 +111,7 @@ func click(mousepos):
 	print(raycast3d.target_position)
 	raycast3d.force_raycast_update()
 	if raycast3d.is_colliding():
+		print("COLLISION!")
 		var collision_point = raycast3d.get_collision_point()
 		get_node("../MeshRepresentation").on_point_click(collision_point)
 		

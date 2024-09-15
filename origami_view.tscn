@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://cx34wy0jou3xl"]
+[gd_scene load_steps=10 format=3 uid="uid://cx34wy0jou3xl"]
 
 [ext_resource type="Script" path="res://mesh.gd" id="1_pgmcf"]
 [ext_resource type="Material" uid="uid://bejvksobow3db" path="res://mesh_no_culling_mat.tres" id="1_yweo6"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_3ht8o"]
 [ext_resource type="Script" path="res://MeshRepresentation.gd" id="3_l5n77"]
+[ext_resource type="Material" uid="uid://dk8bs6hyjha5l" path="res://start_circle_mat.tres" id="5_kculm"]
+[ext_resource type="Material" uid="uid://c6j4lq7p8tyv0" path="res://end_circle_mat.tres" id="6_uj1t2"]
 
 [sub_resource type="Environment" id="Environment_2c0uj"]
 
@@ -117,6 +119,8 @@ text = "Fold!"
 [node name="MeshRepresentation" type="Node3D" parent="."]
 script = ExtResource("3_l5n77")
 mesh_path = NodePath("../WorldEnvironment/MainMesh")
+start_circle_path = NodePath("../StartCircle")
+end_circle_path = NodePath("../EndCircle")
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 10)
@@ -125,3 +129,13 @@ hit_from_inside = true
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 10)
 script = ExtResource("2_3ht8o")
+
+[node name="StartCircle" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 10)
+radius = 0.2
+material = ExtResource("5_kculm")
+
+[node name="EndCircle" type="CSGSphere3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 10, 10)
+radius = 0.2
+material = ExtResource("6_uj1t2")

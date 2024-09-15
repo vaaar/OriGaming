@@ -52,11 +52,13 @@ func recreate_plane_scene(planes):
 	var new_arraymesh = ArrayMesh.new()
 	
 	#for p: TriangularPlane in planes:
-	for p_ind in range(len(planes)):
-		var exp = planes[p_ind].export_surface()
+	var i = 0
+	for plane in planes:
+		var exp = plane.export_surface()
 		var next_mesh = exp["mesh_array"]
 		new_arraymesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, next_mesh)
-		new_arraymesh.surface_set_material(p_ind, preload("res://mesh_no_culling_mat.tres"))
+		new_arraymesh.surface_set_material(i, preload("res://mesh_no_culling_mat.tres"))
+		i += 1
 	
 	mesh = new_arraymesh
 	create_trimesh_collision()
