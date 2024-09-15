@@ -58,12 +58,9 @@ func recreate_plane_scene(planes):
 func rotate_through_vertical_axis(angle: float):
 	rotate_y(deg_to_rad(angle))
 	
-func _input(event: InputEvent):
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
 	if Input.is_key_pressed(KEY_LEFT):
 		rotate_through_vertical_axis(-10)
 	elif Input.is_key_pressed(KEY_RIGHT):
 		rotate_through_vertical_axis(+10)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
