@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://cx34wy0jou3xl"]
+[gd_scene load_steps=14 format=3 uid="uid://cx34wy0jou3xl"]
 
-[ext_resource type="Texture2D" uid="uid://dk7li4ltxhvs" path="res://panorama_image.png" id="1_0k50a"]
+[ext_resource type="Texture2D" uid="uid://dk7li4ltxhvs" path="res://panorama_image.png" id="1_bxjqt"]
 [ext_resource type="Script" path="res://mesh.gd" id="1_pgmcf"]
 [ext_resource type="Material" uid="uid://bejvksobow3db" path="res://mesh_no_culling_mat.tres" id="1_yweo6"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_3ht8o"]
@@ -9,9 +9,15 @@
 [ext_resource type="Material" path="res://start_circle_mat.tres" id="5_kculm"]
 [ext_resource type="Material" path="res://end_circle_mat.tres" id="6_uj1t2"]
 
-[sub_resource type="Environment" id="Environment_2c0uj"]
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_skiq6"]
+panorama = ExtResource("1_bxjqt")
+
+[sub_resource type="Sky" id="Sky_guvqr"]
+sky_material = SubResource("PanoramaSkyMaterial_skiq6")
+
+[sub_resource type="Environment" id="Environment_5mtgt"]
 background_mode = 2
-sky = SubResource("Sky_71ghr")
+sky = SubResource("Sky_guvqr")
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_qekac"]
 
@@ -31,7 +37,7 @@ _surfaces = [{
 [node name="Node3D" type="Node3D"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_2c0uj")
+environment = SubResource("Environment_5mtgt")
 camera_attributes = SubResource("CameraAttributesPractical_qekac")
 
 [node name="MainMesh" type="MeshInstance3D" parent="WorldEnvironment"]
@@ -125,9 +131,8 @@ alignment = 1
 layout_mode = 2
 
 [node name="CommitButton" type="Button" parent="VBoxContainer/HBoxContainer"]
-visible = false
 layout_mode = 2
-text = "Fold!"
+text = "reset fold"
 
 [node name="MeshRepresentation" type="Node3D" parent="."]
 script = ExtResource("3_l5n77")
@@ -154,3 +159,4 @@ radius = 0.2
 material = ExtResource("6_uj1t2")
 
 [connection signal="pressed" from="WorldEnvironment/MarginContainer/VBoxContainer/GridContainer/FaceY" to="Camera3D" method="face_y"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/CommitButton" to="MeshRepresentation" method="reset_world"]

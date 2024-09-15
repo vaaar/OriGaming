@@ -45,6 +45,8 @@ var mode : Mode = Mode.SELECTING_POINT_1
 const INSIDE_FOLD = true;
 const OUTSIDE_FOLD = false;
 
+var tp_backup = []
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	
@@ -58,7 +60,12 @@ func _ready() -> void:
 	print(planes)
 	
 	var triangular_planes = generate_triangular_planes()
+	tp_backup = triangular_planes
+	
 	get_node(mesh_path).recreate_plane_scene(triangular_planes)
+	
+func reset_world():
+	get_node(mesh_path).recreate_plane_scene(tp_backup)
 
 func _input(event):
 	pass
