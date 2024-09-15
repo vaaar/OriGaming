@@ -10,7 +10,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_od721"]
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_ipn8d"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_yup8e"]
 _surfaces = [{
 "aabb": AABB(-5, 0, -5, 10, 1e-05, 10),
 "format": 34359742465,
@@ -29,9 +29,9 @@ environment = SubResource("Environment_2c0uj")
 camera_attributes = SubResource("CameraAttributesPractical_qekac")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment"]
-transform = Transform3D(0.993622, 0, 0.112764, 0, 1, 0, -0.112764, 0, 0.993622, 0, 0, 0)
+transform = Transform3D(-0.567678, 0, -0.823269, 0, 1, 0, 0.823269, 0, -0.567678, 0, 0, 0)
 material_override = SubResource("ShaderMaterial_od721")
-mesh = SubResource("ArrayMesh_ipn8d")
+mesh = SubResource("ArrayMesh_yup8e")
 skeleton = NodePath("../..")
 script = ExtResource("1_pgmcf")
 
