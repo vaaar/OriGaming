@@ -80,6 +80,8 @@ func on_point_click(pt):
 		
 	else: 
 		end_point = closest_pt
+		if (end_point < start_point):
+			start_point += 1
 		get_node(end_circle_path).global_position = points[end_point]
 		get_node(end_circle_path).radius = circle_radius
 		mode = Mode.SELECTING_ANGLE
@@ -125,6 +127,10 @@ func get_changed_points_from_fold(start_pt, end_pt, pts):
 	return get_points_from_fold(start_pt, end_pt, pts, l1 <= l2, false)
 		
 func fold(rad = PI):
+	if (start_point > end_point):
+		var temp = end_point
+		end_point = start_point
+		start_point = temp
 	var skip = false
 	for i in range(0, len(planes)):
 		if skip: 
@@ -169,7 +175,7 @@ func fold(rad = PI):
 	print("Current rendered plane indices")
 	print(planes)
 	var new_triangular_planes = transform_fold.fold(points[start_point], points[end_point], rad, final_indices, triangular_planes)
-	get_node(mesh_path).recreate_plane_scene(triangular_planes)
+	get_node(mesh_path).recreate_plane_scene(new_triangular_planes)
 	# todo, update the points in my representation
 	# debug
 	
@@ -213,22 +219,7 @@ func get_closest_point(pt):
 		temp_start = i
 		temp_end = i + 1
 		if temp_end >= len(points): temp_end = 0
-		"""
-		# Account for the case that closest point is already included in the list
-		temp_dist = (points[i] - pt).length()
-		if (temp_dist < closest_dist):
-			closest_dist = temp_dist
-			closest_start = i
-			closest_end = -1
-			print(closest_end)
-		if (temp_dist <= snap_existing_point_radius):
-			closest_dist = -10000
-			closest_start = i
-			closest_end -1
-		"""
 		
-		#if (closest_dist > 0):
-			# Account for the case that we need to create a new point on a preexisting line
 		temp_dist = compute_distance(pt, points[temp_start], points[temp_end])
 		if (temp_dist < closest_dist):
 			closest_dist = temp_dist
@@ -240,51 +231,43 @@ func get_closest_point(pt):
 	print("closest dist " + str(closest_dist))
 	print("closest start " + str(closest_start))
 	print("closest end " + str(closest_end))
-	if (false and closest_end == -1 || closest_dist < 0): # Case where we return pre existing points
-		print("WE SNAP POINT")
-		return closest_start
-	else: # Case where we make new point on a line
-		print("WE INSERT POINT")
-		points.insert(closest_end, compute_closest_point(pt,points[closest_start], points[closest_end]))
-		
-		var closest_mid = closest_end
-		closest_end = closest_end + 1
-		if (closest_start > closest_end):
-			closest_start += 1
-		
-		# ADJUST PLANE INDICES FOR NEW POINT
-		print("CLOSEST START INSERT " + str(closest_start))
-		print("CLOSEST END INSERT " + str(closest_end))
-		for p in range(0, len(planes)):
-			for i in range(0, len(planes[p])):
-				if (planes[p][i] >= closest_mid):
-					planes[p][i] = planes[p][i] + 1
-		
-		# ADD POINT AT ANY INSTANCE OF LINE BETWEEN CLOSEST START AND (CLOSEST END + 1)
-		
+	points.insert(closest_end, compute_closest_point(pt, points[closest_start], points[closest_end]))
+	
+	var closest_mid = closest_end
+	closest_end = closest_end + 1
+	if (closest_start > closest_end):
+		closest_start += 1
+	
+	# ADJUST PLANE INDICES FOR NEW POINT
+	print("CLOSEST START INSERT " + str(closest_start))
+	print("CLOSEST END INSERT " + str(closest_end))
+	for p in range(0, len(planes)):
+		for i in range(0, len(planes[p])):
+			if (planes[p][i] >= closest_mid):
+				planes[p][i] = planes[p][i] + 1
+	
+	# ADD POINT AT ANY INSTANCE OF LINE BETWEEN CLOSEST START AND (CLOSEST END + 1)
+	
+	print(planes[0])
+	for p in range(0, len(planes)):
+		for i in range(0, len(planes[p])):
+			len(planes[p])
+			
+			if (i == len(planes[p]) - 1):
+				print("ccaaaa")
+				print(planes[p][i])
+				print(planes[p][0])
+				if (planes[p][i] == closest_start and planes[p][0] == closest_end):
+					print("ddaaa")
+					planes[p].append(closest_mid)
+				elif (planes[p][i] == closest_end and planes[p][0] == closest_start):
+					planes[p].append(closest_mid)
+			else:
+				if (planes[p][i] == closest_start and planes[p][i + 1] == closest_end):
+					planes[p].insert(i + 1, closest_mid)
+				elif (planes[p][i] == closest_end + 1 and planes[p][i + 1] == closest_start):
+					planes[p].insert(i + 1, closest_mid)
+			if (p == 0):
+				print("i %s | cs %s | cm %s | ce %s | pts %s" % [i, closest_start, closest_mid, closest_end, planes[p]])
 		print(planes[0])
-		for p in range(0, len(planes)):
-			for i in range(0, len(planes[p])):
-				len(planes[p])
-				
-				if (i == len(planes[p]) - 1):
-					print("ccaaaa")
-					print(planes[p][i])
-					print(planes[p][0])
-					if (planes[p][i] == closest_start and planes[p][0] == closest_end):
-						print("ddaaa")
-						planes[p].append(closest_mid)
-					elif (planes[p][i] == closest_end and planes[p][0] == closest_start):
-						planes[p].append(closest_mid)
-				else:
-					if (planes[p][i] == closest_start and planes[p][i + 1] == closest_end):
-						planes[p].insert(i + 1, closest_mid)
-					elif (planes[p][i] == closest_end + 1 and planes[p][i + 1] == closest_start):
-						planes[p].insert(i + 1, closest_mid)
-				
-				if (p == 0):
-					print("i %s | cs %s | cm %s | ce %s | pts %s" % [i, closest_start, closest_mid, closest_end, planes[p]])
-		
-		print(planes[0])
-				
-		return closest_end
+	return closest_mid

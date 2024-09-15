@@ -118,7 +118,7 @@ func click(mousepos):
 		var fmt_str = "Collision point: %v"
 		print(fmt_str % [collision_point])
 		
-		var sphere = CSGSphere3D.new()
-		sphere.radius = 0.1
-		sphere.global_position = collision_point
-		get_parent().add_child(sphere)
+		#var sphere = CSGSphere3D.new()
+		#sphere.radius = 0.1
+		#sphere.global_position = collision_point
+		#get_parent().add_child(sphere)
