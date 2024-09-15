@@ -68,5 +68,6 @@ func _process(delta: float) -> void:
 	if update_frame:
 		var new_cartesian = spherical_to_cartesian(curr_spherical)
 		position = new_cartesian
+		print(new_cartesian)
 		set_origin_view()
 		update_frame = false
