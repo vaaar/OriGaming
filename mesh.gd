@@ -7,11 +7,13 @@ extends MeshInstance3D
 func _ready() -> void:
 	#pass # Replace with function body.
 	#$Camera
-	create_mesh()
+	#create_mesh()
+	print("Current mesh???")
+	print(mesh.to_string())
 	pass
 
 func create_mesh() -> void:
-	var array_mesh = ArrayMesh.new()
+	#var array_mesh = ArrayMesh.new()
 	
 	#var test_vertices = PackedVector3Array(
 		#[
@@ -24,15 +26,15 @@ func create_mesh() -> void:
 		#]
 	#)
 	
-	var test_vertices = PackedVector3Array(
-		[
-			Vector3(-5, 0, 5),
-			Vector3(5, 0, 5),
-			Vector3(-5, 0, -5)
-		]
-	)
-	
-	var tp = TriangularPlane.new(test_vertices)
+	#var test_vertices = PackedVector3Array(
+		#[
+			#Vector3(-5, 0, 5),
+			#Vector3(5, 0, 5),
+			#Vector3(-5, 0, -5)
+		#]
+	#)
+	#
+	#var tp = TriangularPlane.new(test_vertices)
 	
 	#var surf = tp.export_surface()
 	#
@@ -41,22 +43,27 @@ func create_mesh() -> void:
 	#
 	#mesh = array_mesh
 	
-	recreate_plane_scene([tp])
+	#recreate_plane_scene([tp])
 	
 	self.global_transform.origin = Vector3(0,0,0)
 	
 func recreate_plane_scene(planes):
 	var new_arraymesh = ArrayMesh.new()
 	
-	for p: TriangularPlane in planes:
-		var exp = p.export_surface()
+	#for p: TriangularPlane in planes:
+	for p_ind in range(len(planes)):
+		var exp = planes[p_ind].export_surface()
 		var next_mesh = exp["mesh_array"]
 		new_arraymesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, next_mesh)
+		new_arraymesh.surface_set_material (p_ind, preload("res://mesh_no_culling_mat.tres"))
 	
 	mesh = new_arraymesh
 	
 func rotate_through_vertical_axis(angle: float):
 	rotate_y(deg_to_rad(angle))
+	
+func rotate_through_horizontal_axis(angle: float):
+	rotate_x(deg_to_rad(angle))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -65,3 +72,7 @@ func _process(delta: float) -> void:
 		rotate_through_vertical_axis(-speed * delta)
 	elif Input.is_key_pressed(KEY_RIGHT):
 		rotate_through_vertical_axis(speed * delta)
+	elif Input.is_key_pressed(KEY_UP):
+		rotate_through_horizontal_axis(-speed * delta)
+	elif Input.is_key_pressed(KEY_DOWN):
+		rotate_through_horizontal_axis(speed * delta)

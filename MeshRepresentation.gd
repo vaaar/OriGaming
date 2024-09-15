@@ -8,7 +8,7 @@ const TransformFold := preload("res://TransformFold.gd")
 var debug_tp_old = []
 var debug_tp_new = []
 # Points defined as list of Vector2
-"""var points = [
+var points = [
 	Vector3(-10, 0, 10), 
 	Vector3(10,0,10), 
 	Vector3(10, 0, 0), 
@@ -16,19 +16,19 @@ var debug_tp_new = []
 	Vector3(0, 0, -10), 
 	Vector3(-10, 0, -10)
 ]
-var planes = [[0, 1, 2, 3, 4, 5]]"""
+var planes = [[0, 1, 2, 3, 4, 5]]
 
-var points = [
-	Vector3(-10, 10, 0),
-	Vector3(10, 10, 0),
-	Vector3(10, -10, 0),
-	Vector3(-10, -10, 0)
-	]
-var planes = [[0, 1, 2, 3]]
+#var points = [
+	#Vector3(-10, 10, 0),
+	#Vector3(10, 10, 0),
+	#Vector3(10, -10, 0),
+	#Vector3(-10, -10, 0)
+	#]
+#var planes = [[0, 1, 2, 3]]
 
 # Line defined as indices
-var start_point = 1
-var end_point = 3
+var start_point = 2
+var end_point = 4
 var transform_fold : TransformFold;
 
 enum Mode {
@@ -45,8 +45,8 @@ const OUTSIDE_FOLD = false;
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	transform_fold = TransformFold.new()
-	start_point = 1
-	end_point = 3
+	#start_point = 1
+	#end_point = 3
 	fold()
 	print(points)
 	print(planes)
@@ -55,10 +55,10 @@ func _input(event):
 	if event is InputEventKey and event.pressed:
 		if event.keycode == KEY_N:
 			print("N was pressed")
-			get_node(mesh_path).recreate_plane_scene(debug_tp_new)
+			#get_node(mesh_path).recreate_plane_scene(debug_tp_new)
 		if event.keycode == KEY_M:
 			print("M was pressed")
-			get_node(mesh_path).recreate_plane_scene(debug_tp_old)
+			#get_node(mesh_path).recreate_plane_scene(debug_tp_old)
 # Called when user clicks a point in space & collides.
 func on_point_click(pt):
 	var closest_pt = get_closest_point(pt)
@@ -74,6 +74,7 @@ func append_arr(arr1, arr2):
 		arr1.append_array(arr2)
 
 func get_points_from_fold(start_pt, end_pt, pts, is_inside, include_line):
+	print(start_pt)
 	if (is_inside): 
 		var arr = []
 		append_arr(arr, range(start_pt + 1, end_pt))
@@ -86,10 +87,14 @@ func get_points_from_fold(start_pt, end_pt, pts, is_inside, include_line):
 	else: 
 		var arr = []
 		append_arr(arr, range(0, start_pt))
+		print(arr)
 		if include_line:
-			arr.insert(0, start_pt)
+			arr.append(start_pt)
+			print(arr)
 			arr.append(end_pt)
+			print(arr)
 		append_arr(arr, range(end_pt + 1, len(pts)))
+		print(arr)
 		return arr
 		
 
@@ -138,9 +143,11 @@ func fold():
 		triangular_planes.append(TriangularPlane.new(PackedVector3Array(triangular_plane_points)))
 	
 	
-	debug_tp_old.append_array(triangular_planes)
+	debug_tp_old = triangular_planes
 	
 	#var new_triangular_planes = triangular_planes
+	print("Current rendered plane indices")
+	print(planes)
 	var new_triangular_planes = transform_fold.fold(points[start_point], points[end_point], PI, final_indices, triangular_planes.duplicate())
 	get_node(mesh_path).recreate_plane_scene(new_triangular_planes)
 	# todo, update the points in my representation

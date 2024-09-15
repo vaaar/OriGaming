@@ -1,6 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://cx34wy0jou3xl"]
 
 [ext_resource type="Script" path="res://mesh.gd" id="1_pgmcf"]
+[ext_resource type="Material" uid="uid://bejvksobow3db" path="res://mesh_no_culling_mat.tres" id="1_yweo6"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_3ht8o"]
 [ext_resource type="Script" path="res://MeshRepresentation.gd" id="3_l5n77"]
 
@@ -8,14 +9,13 @@
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_qekac"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_od721"]
-
-[sub_resource type="ArrayMesh" id="ArrayMesh_yup8e"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_0w4ge"]
 _surfaces = [{
 "aabb": AABB(-5, 0, -5, 10, 1e-05, 10),
 "format": 34359742465,
 "index_count": 3,
 "index_data": PackedByteArray(0, 0, 2, 0, 1, 0),
+"material": ExtResource("1_yweo6"),
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 3,
@@ -28,18 +28,18 @@ _surfaces = [{
 environment = SubResource("Environment_2c0uj")
 camera_attributes = SubResource("CameraAttributesPractical_qekac")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="WorldEnvironment"]
-transform = Transform3D(-0.567678, 0, -0.823269, 0, 1, 0, 0.823269, 0, -0.567678, 0, 0, 0)
-material_override = SubResource("ShaderMaterial_od721")
-mesh = SubResource("ArrayMesh_yup8e")
+[node name="MainMesh" type="MeshInstance3D" parent="WorldEnvironment"]
+transform = Transform3D(0.604178, 0.0392758, 0.795923, 0.652515, -0.59781, -0.465771, 0.457514, 0.80072, -0.386818, 0, 0, 0)
+mesh = SubResource("ArrayMesh_0w4ge")
 skeleton = NodePath("../..")
+surface_material_override/0 = ExtResource("1_yweo6")
 script = ExtResource("1_pgmcf")
 
 [node name="Camera3D" type="Camera3D" parent="WorldEnvironment"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 15)
-fov = 100.0
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 20, 0)
+fov = 70.0
 script = ExtResource("2_3ht8o")
 
 [node name="MeshRepresentation" type="Node3D" parent="."]
 script = ExtResource("3_l5n77")
-mesh_path = NodePath("../WorldEnvironment/MeshInstance3D")
+mesh_path = NodePath("../WorldEnvironment/MainMesh")
