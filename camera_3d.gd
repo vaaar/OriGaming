@@ -70,18 +70,52 @@ func _process(delta: float) -> void:
 		position = new_cartesian
 		set_origin_view()
 		update_frame = false
+	
+	#if Input.is_action_just_pressed("click"):
 		
+		#var mousepos = get_viewport().get_mouse_position() + (Vector2.UP * get_viewport().get_visible_rect().size.y / 2)
+		#mousepos = get_viewport().get_mouse_position()
+		#print(get_viewport().get_visible_rect().size)
+		#print(get_viewport().get_mouse_position())
+		#$RayCast3D.target_position = project_position(mousepos, 100) - $RayCast3D.global_position
+		#print("Mouse clicked.")
+		#print($RayCast3D.target_position)
+		#$RayCast3D.force_raycast_update()
+		#if $RayCast3D.is_colliding():
+			#var collision_point = $RayCast3D.get_collision_point()
+			#get_node("../MeshRepresentation").on_point_click(collision_point)
+			
+			#var fmt_str = "Collision point: %v"
+			#print(fmt_str % [collision_point])
+			
+			#var sphere = CSGSphere3D.new()
+			#sphere.radius = 0.1
+			#sphere.global_position = collision_point
+			#get_parent().add_child(sphere)
+
 # Gets the mouse click. Uses it to compute world position. Uses that to create raycast. 
 # If raycast hits object, the collision point is given to Mesh Representation.
 func _input(event):
 	if event is InputEventMouseButton:
-		$RayCast3D.target_position = project_position(event.position, 20) - global_position
-		print("Mouse clicked.")
-		print($RayCast3D.target_position)
-		$RayCast3D.force_raycast_update()
-		if $RayCast3D.is_colliding():
-			var collision_point = $RayCast3D.get_collision_point()
-			get_node("../MeshRepresentation").on_point_click(collision_point)
-			
-			var fmt_str = "Collision point: %v"
-			print(fmt_str % [collision_point])
+		click(event.position)
+		pass
+
+func click(mousepos):
+	#mousepos = get_viewport().get_mouse_position()
+	var raycast3d = get_node("../RayCast3D")
+	raycast3d.global_position = global_position;
+	raycast3d.target_position = project_position(mousepos, 100) - raycast3d.global_position
+	print("Mouse clicked.")
+	print(raycast3d.target_position)
+	raycast3d.force_raycast_update()
+	if raycast3d.is_colliding():
+		var collision_point = raycast3d.get_collision_point()
+		get_node("../MeshRepresentation").on_point_click(collision_point)
+		
+		var fmt_str = "Collision point: %v"
+		print(fmt_str % [collision_point])
+		
+		var sphere = CSGSphere3D.new()
+		sphere.radius = 0.1
+		sphere.global_position = collision_point
+		get_parent().add_child(sphere)

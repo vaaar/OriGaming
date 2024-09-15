@@ -118,9 +118,10 @@ text = "Fold!"
 script = ExtResource("3_l5n77")
 mesh_path = NodePath("../WorldEnvironment/MainMesh")
 
+[node name="RayCast3D" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 10)
+hit_from_inside = true
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 10)
 script = ExtResource("2_3ht8o")
-
-[node name="RayCast3D" type="RayCast3D" parent="Camera3D"]
-hit_from_inside = true
