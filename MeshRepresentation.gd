@@ -148,7 +148,7 @@ func fold():
 	#var new_triangular_planes = triangular_planes
 	print("Current rendered plane indices")
 	print(planes)
-	var new_triangular_planes = transform_fold.fold(points[start_point], points[end_point], PI, final_indices, triangular_planes.duplicate())
+	var new_triangular_planes = transform_fold.fold(points[start_point], points[end_point], PI/4, final_indices, triangular_planes.duplicate())
 	get_node(mesh_path).recreate_plane_scene(new_triangular_planes)
 	# todo, update the points in my representation
 	# debug

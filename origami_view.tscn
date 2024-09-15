@@ -29,17 +29,95 @@ environment = SubResource("Environment_2c0uj")
 camera_attributes = SubResource("CameraAttributesPractical_qekac")
 
 [node name="MainMesh" type="MeshInstance3D" parent="WorldEnvironment"]
-transform = Transform3D(0.604178, 0.0392758, 0.795923, 0.652515, -0.59781, -0.465771, 0.457514, 0.80072, -0.386818, 0, 0, 0)
+transform = Transform3D(0.384237, -0.144815, 0.911844, 0.57708, -0.733317, -0.359602, 0.72074, 0.664339, -0.198217, 0, 0, 0)
 mesh = SubResource("ArrayMesh_0w4ge")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("1_yweo6")
 script = ExtResource("1_pgmcf")
 
-[node name="Camera3D" type="Camera3D" parent="WorldEnvironment"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 20, 0)
-fov = 70.0
-script = ExtResource("2_3ht8o")
+[node name="MarginContainer" type="MarginContainer" parent="WorldEnvironment"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="NewModelContainer" type="MarginContainer" parent="WorldEnvironment/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="Label" type="Label" parent="WorldEnvironment/MarginContainer/NewModelContainer"]
+layout_mode = 2
+text = "New Model"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="WorldEnvironment/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="GridContainer" type="GridContainer" parent="WorldEnvironment/MarginContainer/VBoxContainer"]
+layout_mode = 2
+columns = 4
+
+[node name="Label" type="Label" parent="WorldEnvironment/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Face:"
+
+[node name="FaceX" type="Button" parent="WorldEnvironment/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "X"
+
+[node name="FaceY" type="Button" parent="WorldEnvironment/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Y"
+
+[node name="FaceZ" type="Button" parent="WorldEnvironment/MarginContainer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Z"
+
+[node name="PanViewportButton" type="Button" parent="WorldEnvironment/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Pan Viewport"
+
+[node name="ViewportGizmosContainer" type="MarginContainer" parent="WorldEnvironment/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 4
+
+[node name="OperationStatusLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "No fold/point selected."
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="FoldRotationSlider" type="HSlider" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="CommitButton" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Fold!"
 
 [node name="MeshRepresentation" type="Node3D" parent="."]
 script = ExtResource("3_l5n77")
 mesh_path = NodePath("../WorldEnvironment/MainMesh")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 10)
+script = ExtResource("2_3ht8o")

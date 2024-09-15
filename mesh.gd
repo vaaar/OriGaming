@@ -10,6 +10,7 @@ func _ready() -> void:
 	#create_mesh()
 	print("Current mesh???")
 	print(mesh.to_string())
+	rotation = Vector3.ZERO
 	pass
 
 func create_mesh() -> void:
@@ -55,24 +56,8 @@ func recreate_plane_scene(planes):
 		var exp = planes[p_ind].export_surface()
 		var next_mesh = exp["mesh_array"]
 		new_arraymesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, next_mesh)
-		new_arraymesh.surface_set_material (p_ind, preload("res://mesh_no_culling_mat.tres"))
+		new_arraymesh.surface_set_material(p_ind, preload("res://mesh_no_culling_mat.tres"))
+		
 	
 	mesh = new_arraymesh
 	
-func rotate_through_vertical_axis(angle: float):
-	rotate_y(deg_to_rad(angle))
-	
-func rotate_through_horizontal_axis(angle: float):
-	rotate_x(deg_to_rad(angle))
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	var speed = 100
-	if Input.is_key_pressed(KEY_LEFT):
-		rotate_through_vertical_axis(-speed * delta)
-	elif Input.is_key_pressed(KEY_RIGHT):
-		rotate_through_vertical_axis(speed * delta)
-	elif Input.is_key_pressed(KEY_UP):
-		rotate_through_horizontal_axis(-speed * delta)
-	elif Input.is_key_pressed(KEY_DOWN):
-		rotate_through_horizontal_axis(speed * delta)
