@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://cx34wy0jou3xl"]
 
-[ext_resource type="Texture2D" uid="uid://dk7li4ltxhvs" path="res://panorama_image.png" id="1_bxjqt"]
 [ext_resource type="Script" path="res://mesh.gd" id="1_pgmcf"]
+[ext_resource type="Texture2D" uid="uid://cif8l7ys0wfn4" path="res://panorama_image2.png" id="1_wgpvr"]
 [ext_resource type="Material" uid="uid://bejvksobow3db" path="res://mesh_no_culling_mat.tres" id="1_yweo6"]
 [ext_resource type="Script" path="res://camera_3d.gd" id="2_3ht8o"]
 [ext_resource type="Script" path="res://MeshRepresentation.gd" id="3_l5n77"]
@@ -10,7 +10,7 @@
 [ext_resource type="Material" path="res://end_circle_mat.tres" id="6_uj1t2"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_skiq6"]
-panorama = ExtResource("1_bxjqt")
+panorama = ExtResource("1_wgpvr")
 
 [sub_resource type="Sky" id="Sky_guvqr"]
 sky_material = SubResource("PanoramaSkyMaterial_skiq6")
@@ -145,7 +145,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 10)
 hit_from_inside = true
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 10)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 15, 15)
 script = ExtResource("2_3ht8o")
 
 [node name="StartCircle" type="CSGSphere3D" parent="."]

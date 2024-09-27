@@ -3,4 +3,4 @@
 [resource]
 cull_mode = 2
 emission_enabled = true
-emission = Color(0.903859, 0.783518, 0.695627, 1)
+emission = Color(0.552107, 0.395031, 0.27432, 1)

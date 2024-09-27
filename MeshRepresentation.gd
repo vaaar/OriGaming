@@ -46,6 +46,7 @@ const INSIDE_FOLD = true;
 const OUTSIDE_FOLD = false;
 
 var tp_backup = []
+var planes_indices_backup = planes.duplicate(true)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -66,6 +67,7 @@ func _ready() -> void:
 	
 func reset_world():
 	get_node(mesh_path).recreate_plane_scene(tp_backup)
+	planes = planes_indices_backup
 
 func _input(event):
 	pass
@@ -181,7 +183,7 @@ func fold(rad = PI):
 	#var new_triangular_planes = triangular_planes
 	print("Current rendered plane indices")
 	print(planes)
-	var new_triangular_planes = transform_fold.fold(points[start_point], points[end_point], rad, final_indices, triangular_planes)
+	var new_triangular_planes = transform_fold.fold(points[start_point], points[end_point], 4*PI/3, final_indices, triangular_planes)
 	get_node(mesh_path).recreate_plane_scene(new_triangular_planes)
 	# todo, update the points in my representation
 	# debug

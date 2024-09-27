@@ -57,7 +57,11 @@ func recreate_plane_scene(planes):
 		var exp = plane.export_surface()
 		var next_mesh = exp["mesh_array"]
 		new_arraymesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, next_mesh)
+		var new_mat = StandardMaterial3D.new();
+		#new_mat.cull_mode = StandardMaterial3D.CullMode.CULL_DISABLED
+		#new_mat.emission = Color(45, randi_range(0, 1), 62)
 		new_arraymesh.surface_set_material(i, preload("res://mesh_no_culling_mat.tres"))
+		#new_arraymesh.surface_set_material(i, new_mat)
 		i += 1
 	
 	mesh = new_arraymesh
